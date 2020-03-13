@@ -85,9 +85,17 @@ class Uuid implements \JsonSerializable
         return uuid_is_null($this->uuid);
     }
 
-    public function equals(self $other): bool
+    public function equals($other): bool
     {
-        return 0 === uuid_compare($this->uuid, $other->uuid);
+        if ($other instance self) {
+            return 0 === uuid_compare($this->uuid, $other->uuid);
+        }
+        
+        if (is_string($other)) {
+            return 0 === uuid_compare($this->uuid, $other);
+        }
+
+        return false;
     }
 
     public function compare(self $other): int
