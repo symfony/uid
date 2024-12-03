@@ -85,6 +85,8 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable, HashableIn
 
     /**
      * Returns the identifier as a raw binary string.
+     *
+     * @return non-empty-string
      */
     abstract public function toBinary(): string;
 
@@ -92,6 +94,8 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable, HashableIn
      * Returns the identifier as a base58 case-sensitive string.
      *
      * @example 2AifFTC3zXgZzK5fPrrprL (len=22)
+     *
+     * @return non-empty-string
      */
     public function toBase58(): string
     {
@@ -104,6 +108,8 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable, HashableIn
      * @see https://tools.ietf.org/html/rfc4648#section-6
      *
      * @example 09EJ0S614A9FXVG9C5537Q9ZE1 (len=26)
+     *
+     * @return non-empty-string
      */
     public function toBase32(): string
     {
@@ -127,6 +133,8 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable, HashableIn
      * @see https://datatracker.ietf.org/doc/html/rfc9562/#section-4
      *
      * @example 09748193-048a-4bfb-b825-8528cf74fdc1 (len=36)
+     *
+     * @return non-empty-string
      */
     public function toRfc4122(): string
     {
@@ -143,6 +151,8 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable, HashableIn
      * Returns the identifier as a prefixed hexadecimal case insensitive string.
      *
      * @example 0x09748193048a4bfbb8258528cf74fdc1 (len=34)
+     *
+     * @return non-empty-string
      */
     public function toHex(): string
     {
@@ -161,6 +171,9 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable, HashableIn
         return $this->uid === $other->uid;
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function hash(): string
     {
         return $this->uid;
@@ -171,16 +184,25 @@ abstract class AbstractUid implements \JsonSerializable, \Stringable, HashableIn
         return (\strlen($this->uid) - \strlen($other->uid)) ?: ($this->uid <=> $other->uid);
     }
 
+    /**
+     * @return non-empty-string
+     */
     final public function toString(): string
     {
         return $this->__toString();
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function __toString(): string
     {
         return $this->uid;
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function jsonSerialize(): string
     {
         return $this->uid;
