@@ -109,7 +109,12 @@ final class GenerateUlidCommandTest extends TestCase
     public function testComplete(array $input, array $expectedSuggestions)
     {
         $application = new Application();
-        $application->add(new GenerateUlidCommand());
+        $command = new GenerateUlidCommand();
+        if (method_exists($application, 'addCommand')) {
+            $application->addCommand($command);
+        } else {
+            $application->add($command);
+        }
         $tester = new CommandCompletionTester($application->get('ulid:generate'));
         $suggestions = $tester->complete($input, 2);
         $this->assertSame($expectedSuggestions, $suggestions);
