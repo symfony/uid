@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+7.4
+---
+
+ * Add microsecond precision to UUIDv7
+
 7.3
 ---
 
