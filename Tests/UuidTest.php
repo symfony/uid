@@ -546,4 +546,16 @@ class UuidTest extends TestCase
     {
         $this->assertSame('a45a8538-77a9-4335-bd30-236f59b81b81', (new UuidV4('a45a8538-77a9-4335-bd30-236f59b81b81'))->toString());
     }
+
+    /**
+     * @testWith ["1645557742.000001"]
+     *           ["1645557742.123456"]
+     *           ["1645557742.999999"]
+     */
+    public function testV7MicrosecondPrecision(string $time)
+    {
+        $uuid = UuidV7::fromString(UuidV7::generate(\DateTimeImmutable::createFromFormat('U.u', $time)));
+
+        $this->assertSame($time, $uuid->getDateTime()->format('U.u'));
+    }
 }
