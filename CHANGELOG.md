@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+8.0
+---
+
+ * Add argument `$format` to `Uuid::isValid()`
+
 7.4
 ---
 
