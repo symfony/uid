@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Uid\Tests\Command;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandCompletionTester;
@@ -121,9 +122,7 @@ final class GenerateUuidCommandTest extends TestCase
         $this->assertInstanceOf(UuidV4::class, Uuid::fromRfc4122(trim($commandTester->getDisplay())));
     }
 
-    /**
-     * @dataProvider provideInvalidCombinationOfBasedOptions
-     */
+    #[DataProvider('provideInvalidCombinationOfBasedOptions')]
     public function testInvalidCombinationOfBasedOptions(array $input)
     {
         $commandTester = new CommandTester(new GenerateUuidCommand());
@@ -142,9 +141,7 @@ final class GenerateUuidCommandTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideExtraNodeOption
-     */
+    #[DataProvider('provideExtraNodeOption')]
     public function testExtraNodeOption(array $input)
     {
         $commandTester = new CommandTester(new GenerateUuidCommand());
@@ -162,9 +159,7 @@ final class GenerateUuidCommandTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideExtraNamespaceOption
-     */
+    #[DataProvider('provideExtraNamespaceOption')]
     public function testExtraNamespaceOption(array $input)
     {
         $commandTester = new CommandTester(new GenerateUuidCommand());
@@ -232,9 +227,7 @@ final class GenerateUuidCommandTest extends TestCase
         $this->assertSame('9c7d0eda-982d-5708-b4bd-79b3b179725d', (string) Uuid::fromRfc4122(trim($commandTester->getDisplay())));
     }
 
-    /**
-     * @dataProvider provideCompletionSuggestions
-     */
+    #[DataProvider('provideCompletionSuggestions')]
     public function testComplete(array $input, array $expectedSuggestions)
     {
         $application = new Application();
