@@ -42,8 +42,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
     }
 
     public function testUnknown()
@@ -63,8 +64,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
 
         $this->assertSame(0, $commandTester->execute(['uuid' => '461cc9b9-2397-2dba-91e9-33af4c63f7ec']));
         $this->assertSame(<<<EOF
@@ -79,8 +81,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
 
         $this->assertSame(0, $commandTester->execute(['uuid' => '461cc9b9-2397-adba-91e9-33af4c63f7ec']));
         $this->assertSame(<<<EOF
@@ -95,8 +98,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
 
         $this->assertSame(0, $commandTester->execute(['uuid' => '461cc9b9-2397-cdba-91e9-33af4c63f7ec']));
         $this->assertSame(<<<EOF
@@ -111,8 +115,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
     }
 
     public function testV1()
@@ -134,8 +139,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
     }
 
     public function testV3()
@@ -155,8 +161,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
     }
 
     public function testV4()
@@ -176,8 +183,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
     }
 
     public function testV5()
@@ -197,8 +205,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
     }
 
     public function testV6()
@@ -220,8 +229,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
     }
 
     public function testV7()
@@ -243,8 +253,9 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
     }
 
     public function testV8()
@@ -264,7 +275,8 @@ final class InspectUuidCommandTest extends TestCase
              ----------------------- -------------------------------------- 
 
 
-            EOF
-            , $commandTester->getDisplay(true));
+            EOF,
+            $commandTester->getDisplay(true)
+        );
     }
 }
