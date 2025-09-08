@@ -6,6 +6,7 @@ CHANGELOG
 
  * Add microsecond precision to UUIDv7
  * Default to `UuidV7` when using `UuidFactory`
+ * Add `MockUuidFactory` to allow deterministic and mockable UUID generation for testing purposes
 
 7.3
 ---
