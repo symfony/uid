@@ -5,6 +5,7 @@ CHANGELOG
 ---
 
  * Add microsecond precision to UUIDv7
+ * Default to `UuidV7` when using `UuidFactory`
 
 7.3
 ---
