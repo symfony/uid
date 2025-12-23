@@ -42,7 +42,7 @@ class UlidTest extends TestCase
     public function testWithInvalidUlid()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid ULID: "this is not a ulid".');
+        $this->expectExceptionMessage('Invalid ULID.');
 
         new Ulid('this is not a ulid');
     }
