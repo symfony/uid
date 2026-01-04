@@ -40,7 +40,7 @@ class Ulid extends AbstractUid implements TimeBasedUidInterface
             if (self::MAX === $this->uid) {
                 $this->uid = self::MAX;
             } elseif (!self::isValid($ulid)) {
-                throw new InvalidArgumentException(\sprintf('Invalid ULID: "%s".', $ulid));
+                throw new InvalidArgumentException('Invalid ULID.');
             }
         }
     }
