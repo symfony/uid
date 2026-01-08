@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+8.1
+---
+
+ * Add argument `$format` to `Ulid::isValid()`
+
 8.0
 ---
 
