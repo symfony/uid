@@ -153,7 +153,6 @@ class UlidTest extends TestCase
         $this->assertFalse(Ulid::isValid('30J7CNpDMfXPZrCsn4Cgey', Ulid::FORMAT_BASE_58), 'Fake base-58 string with the "O" forbidden char is not valid');
     }
 
-
     public function testEquals()
     {
         $a = new Ulid();
