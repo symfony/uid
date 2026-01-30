@@ -57,7 +57,7 @@ class Ulid extends AbstractUid implements TimeBasedUidInterface
      */
     public static function isValid(string $ulid/*, int $format = self::FORMAT_BASE_32*/): bool
     {
-        $format = \func_num_args() > 1 ? \func_get_arg(1) : self::FORMAT_BASE_32;
+        $format = \func_num_args() > 1 ? func_get_arg(1) : self::FORMAT_BASE_32;
 
         if (26 === \strlen($ulid) && !($format & self::FORMAT_BASE_32)) {
             return false;
