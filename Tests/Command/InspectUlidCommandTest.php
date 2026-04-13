@@ -43,8 +43,9 @@ final class InspectUlidCommandTest extends TestCase
                  ---------------------- -------------------------------------- 
 
 
-                EOF
-                , $commandTester->getDisplay(true));
+                EOF,
+                $commandTester->getDisplay(true)
+            );
         }
     }
 }
