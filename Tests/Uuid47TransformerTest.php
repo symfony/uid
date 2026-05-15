@@ -13,6 +13,7 @@ namespace Symfony\Component\Uid\Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Exception\InvalidArgumentException;
 use Symfony\Component\Uid\Uuid47Transformer;
@@ -28,22 +29,55 @@ class Uuid47TransformerTest extends TestCase
         return new Uuid47Transformer(hex2bin('efcdab89674523011032547698badcfe'));
     }
 
-    public function testConstructorRequiresAtLeast16ByteKey()
+    #[TestWith([''])]
+    #[TestWith(['x'])]
+    #[TestWith(['tooshort'])]
+    #[TestWith(['123456789012345'])]
+    public function testConstructorRequiresAtLeast16ByteKey(string $secret)
     {
         $this->expectException(InvalidArgumentException::class);
-        new Uuid47Transformer('tooshort');
+        $this->expectExceptionMessage('at least 16 bytes');
+        new Uuid47Transformer($secret);
     }
 
-    public function testConstructorHashesLongKeys()
+    public function testConstructorAcceptsExactly16Bytes()
     {
+        $key = str_repeat('a', 15).'b';
+
+        $transformer = new Uuid47Transformer($key);
+
+        $v7 = new UuidV7('018f2d9f-9a2a-7def-8c3f-7b1a2c4d5e6f');
+        $this->assertSame($v7->toRfc4122(), $transformer->decode($transformer->encode($v7))->toRfc4122());
+    }
+
+    public static function provideWeakKeys(): iterable
+    {
+        yield 'all NUL' => [str_repeat("\x00", 16)];
+        yield 'all 0xFF' => [str_repeat("\xff", 16)];
+        yield 'all "a"' => [str_repeat('a', 16)];
+    }
+
+    #[DataProvider('provideWeakKeys')]
+    public function testConstructorRejectsTriviallyWeakKey(string $secret)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('trivially weak');
+        new Uuid47Transformer($secret);
+    }
+
+    public function testLongSecretIsSha256TruncatedTo16Bytes()
+    {
+        $long = str_repeat('long-secret-', 8);
+        $derived = substr(hash('sha256', $long, true), 0, 16);
+
         $v7 = new UuidV7('018f2d9f-9a2a-7def-8c3f-7b1a2c4d5e6f');
 
-        $a = new Uuid47Transformer(random_bytes(32));
-        $b = new Uuid47Transformer(random_bytes(32));
+        $fromLong = new Uuid47Transformer($long);
+        $fromDerived = new Uuid47Transformer($derived);
 
-        $this->assertNotSame(
-            $a->encode($v7)->toRfc4122(),
-            $b->encode($v7)->toRfc4122(),
+        $this->assertSame(
+            $fromDerived->encode($v7)->toRfc4122(),
+            $fromLong->encode($v7)->toRfc4122(),
         );
     }
 

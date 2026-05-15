@@ -24,6 +24,19 @@ use Symfony\Component\Uid\Exception\LogicException;
  * digest derived from the UUID's own random bits, producing a valid UUIDv4.
  * The transformation is reversible with the same key.
  *
+ * Security model: this is timestamp obfuscation, not authenticated encryption.
+ * The transformation carries no integrity tag, so any well-formed v4 will
+ * decode to some v7; callers must not treat decoded values as authentic and
+ * should validate them against application state (existence, authorization)
+ * before use. Confidentiality of the embedded timestamp relies on the secrecy
+ * of the 128-bit key and on SipHash-2-4 key-recovery hardness against an
+ * adversary able to correlate matched (v7, v4) pairs; treat the masking as
+ * obfuscation rather than strong encryption.
+ *
+ * The mapping is deterministic by design (required for reversibility): the
+ * same v7 always yields the same v4 under a fixed key, so emitted v4 values
+ * are linkable across requests and endpoints.
+ *
  * @see https://github.com/n2p5/uuid47
  */
 class Uuid47Transformer
@@ -31,7 +44,9 @@ class Uuid47Transformer
     private string $secret;
 
     /**
-     * @param string $secret A binary secret of at least 16 bytes
+     * @param string $secret A binary and high-entropy secret of at least 16 bytes
+     *
+     * @throws InvalidArgumentException When $secret is shorter than 16 bytes or is a trivially weak
      */
     public function __construct(
         #[\SensitiveParameter]
@@ -42,6 +57,10 @@ class Uuid47Transformer
         }
         if (16 > \strlen($secret)) {
             throw new InvalidArgumentException('The secret must be at least 16 bytes.');
+        }
+
+        if ($secret === str_repeat($secret[0], 16)) {
+            throw new InvalidArgumentException('The secret is trivially weak; use random_bytes(16) or a key derived from a passphrase via hash_hkdf().');
         }
 
         $this->secret = 16 === \strlen($secret) ? $secret : substr(hash('sha256', $secret, true), 0, 16);
@@ -57,6 +76,10 @@ class Uuid47Transformer
 
     /**
      * Decodes a UUIDv4-looking UUID back into the original UUIDv7.
+     *
+     * The operation is unauthenticated: any well-formed v4 decodes to some v7.
+     * The result must not be trusted as authentic; verify it against
+     * application state (existence, authorization) before use.
      */
     public function decode(UuidV4 $uuid): UuidV7
     {
